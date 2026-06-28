@@ -2,11 +2,11 @@
 # Backs up /BepInEx/ from the Valheim server, then installs all mods via FTP.
 set -euo pipefail
 
-FTP_HOST="REDACTED_SERVER_IP"
-FTP_PORT=REDACTED_FTP_PORT
 # Load credentials from .creds.sh (gitignored); copy .creds.sh.example to create it
 CREDS_FILE="$(cd "$(dirname "$0")" && pwd)/../.creds.sh"
 [ -f "$CREDS_FILE" ] && source "$CREDS_FILE"
+FTP_HOST="${FTP_HOST:?FTP_HOST not set — copy .creds.sh.example to .creds.sh}"
+FTP_PORT="${FTP_PORT:?FTP_PORT not set — copy .creds.sh.example to .creds.sh}"
 FTP_USER="${FTP_USER:?FTP_USER not set — copy .creds.sh.example to .creds.sh}"
 FTP_PASS="${FTP_PASS:?FTP_PASS not set — copy .creds.sh.example to .creds.sh}"
 FTP_BASE="ftp://${FTP_USER}:${FTP_PASS}@${FTP_HOST}:${FTP_PORT}"

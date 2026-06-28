@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-FTP_HOST="REDACTED_SERVER_IP"
-FTP_PORT=REDACTED_FTP_PORT
 _CREDS="$(cd "$(dirname "$0")" && pwd)/../.creds.sh"
 [ -f "$_CREDS" ] && source "$_CREDS"
+FTP_HOST="${FTP_HOST:?FTP_HOST not set — copy .creds.sh.example to .creds.sh}"
+FTP_PORT="${FTP_PORT:?FTP_PORT not set — copy .creds.sh.example to .creds.sh}"
 FTP_USER="${FTP_USER:?FTP_USER not set — copy .creds.sh.example to .creds.sh}"
 FTP_PASS="${FTP_PASS:?FTP_PASS not set — copy .creds.sh.example to .creds.sh}"
 FTP_BASE="ftp://${FTP_USER}:${FTP_PASS}@${FTP_HOST}:${FTP_PORT}"
