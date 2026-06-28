@@ -1,0 +1,4 @@
+# Copy this file to .creds.sh and fill in your FTP credentials.
+# .creds.sh is gitignored and will never be committed.
+export FTP_USER="your-ftp-username"
+export FTP_PASS="your-ftp-password"

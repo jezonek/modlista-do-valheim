@@ -1,0 +1,46 @@
+# Credentials
+.creds
+.creds.sh
+
+# Mod zips and downloaded archives
+*.zip
+
+# Backups created by install/FTP scripts
+server_backup_*/
+server_backups/
+server_upload/
+staging/
+
+# Logs
+*.log
+
+# Debug dumps
+debug_*/
+reset_autostore/
+
+# Root-level script copies (source of truth is scripts/)
+/install_valheim_mods.sh
+/install_valheim_mods.ps1
+/install_valheim_mods.bat
+/server_install_mods.sh
+/ftp_backup.sh
+/server_configs_current/
+/server_configs_fresh/
+
+# BepInEx extracted pack
+denikson-BepInExPack_Valheim-5.4.2333/
+
+# InSlimVML extras
+InSlimVML0.2.3-BepInExForceAdd/
+
+# Session / notes files (personal, not for sharing)
+SESSION_NOTES.md
+SERVER_STATE.md
+scalacube_support_message.txt
+
+# macOS
+.DS_Store
+
+# Claude internal
+.claude-octopus/
+.claude/

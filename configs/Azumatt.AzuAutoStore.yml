@@ -1,0 +1,24 @@
+# AzuAutoStore - reset to DEFAULT behavior (2026-06-10)
+#
+# No per-chest category rules. Every chest auto-collects EVERYTHING within range.
+# Range is controlled by "Fallback Range" in Azumatt.AzuAutoStore.cfg (currently 40m).
+# Only graves and private chests are protected from auto-store.
+#
+# SEARCH: hold Y + left-click an item in inventory to highlight chests containing it.
+# STORE INVENTORY: press the Store hotkey ( . ) to dump your inventory into nearby chests.
+# AUTO GROUND PICKUP: chests vacuum dropped items off the ground every 10s (IntervalSeconds).
+
+Player_tombstone:
+  range: 10
+  exclude:
+    - All
+
+Player:
+  range: 10
+  exclude:
+    - All
+
+piece_chest_private:
+  range: 10
+  exclude:
+    - All
