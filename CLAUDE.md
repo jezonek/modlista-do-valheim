@@ -2,7 +2,7 @@
 
 ## Project Notes
 
-- Server: REDACTED_SERVER_IP (FTP port REDACTED_FTP_PORT). Credentials in `.creds`.
+- Server connection details (IP, port, credentials) in `.creds.sh` (gitignored).
 - Three install scripts must stay in sync: `server_install_mods.sh`, `install_valheim_mods.sh` (Linux/Deck), `install_valheim_mods.ps1` (Windows)
 - vsFTPd blocks `.so` file uploads. Workaround: rename to `.dll` (Linux LD_PRELOAD ignores extension).
 - Never install Valheim+ (incompatible with OdinArchitect/OdinCampsite).
