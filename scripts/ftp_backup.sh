@@ -7,7 +7,11 @@ FTP_HOST="${FTP_HOST:?FTP_HOST not set — copy .creds.sh.example to .creds.sh}"
 FTP_PORT="${FTP_PORT:?FTP_PORT not set — copy .creds.sh.example to .creds.sh}"
 FTP_USER="${FTP_USER:?FTP_USER not set — copy .creds.sh.example to .creds.sh}"
 FTP_PASS="${FTP_PASS:?FTP_PASS not set — copy .creds.sh.example to .creds.sh}"
-FTP_BASE="ftp://${FTP_USER}:${FTP_PASS}@${FTP_HOST}:${FTP_PORT}"
+FTP_BASE="ftp://${FTP_HOST}:${FTP_PORT}"
+NETRC_TMP="$(mktemp)"
+chmod 600 "$NETRC_TMP"
+printf 'machine %s login %s password %s\n' "$FTP_HOST" "$FTP_USER" "$FTP_PASS" > "$NETRC_TMP"
+trap 'rm -f "$NETRC_TMP"' EXIT
 BACKUP_DIR="$1"
 
 ERRORS=0
@@ -21,7 +25,7 @@ download_dir() {
     mkdir -p "$local_path"
 
     local listing
-    listing=$(curl -s --connect-timeout 15 --retry 3 "${FTP_BASE}${remote_path}" 2>&1) || {
+    listing=$(curl -s --netrc-file "$NETRC_TMP" --connect-timeout 15 "${FTP_BASE}${remote_path}" 2>&1) || {
         echo "  [WARN] Failed to list: ${remote_path}"
         ERRORS=$((ERRORS + 1))
         return
@@ -42,10 +46,10 @@ download_dir() {
             echo "  DIR  ${remote_path}${filename}/"
             download_dir "${remote_path}${filename}/" "${local_path}/${filename}/"
         else
-            local remote_file="${FTP_BASE}${remote_path}${filename}"
             local local_file="${local_path}/${filename}"
             printf "  FILE %-60s %s bytes\n" "${remote_path}${filename}" "$size"
-            if curl -s --connect-timeout 30 --retry 3 -o "$local_file" "$remote_file"; then
+            if curl -s --netrc-file "$NETRC_TMP" --connect-timeout 30 \
+                    -o "$local_file" "${FTP_BASE}${remote_path}${filename}"; then
                 FILES_DOWNLOADED=$((FILES_DOWNLOADED + 1))
                 BYTES_DOWNLOADED=$((BYTES_DOWNLOADED + size))
             else

@@ -9,7 +9,11 @@ FTP_HOST="${FTP_HOST:?FTP_HOST not set — copy .creds.sh.example to .creds.sh}"
 FTP_PORT="${FTP_PORT:?FTP_PORT not set — copy .creds.sh.example to .creds.sh}"
 FTP_USER="${FTP_USER:?FTP_USER not set — copy .creds.sh.example to .creds.sh}"
 FTP_PASS="${FTP_PASS:?FTP_PASS not set — copy .creds.sh.example to .creds.sh}"
-FTP_BASE="ftp://${FTP_USER}:${FTP_PASS}@${FTP_HOST}:${FTP_PORT}"
+FTP_BASE="ftp://${FTP_HOST}:${FTP_PORT}"
+# Credentials go in a temp netrc so they never appear in ps aux or log files
+NETRC_TMP="$(mktemp)"
+chmod 600 "$NETRC_TMP"
+printf 'machine %s login %s password %s\n' "$FTP_HOST" "$FTP_USER" "$FTP_PASS" > "$NETRC_TMP"
 BASE_URL="https://thunderstore.io/package/download"
 
 BEPINEX_VERSION="5.4.2333"
@@ -31,17 +35,17 @@ warn() { echo -e "  ${YELLOW}!!  $*${NC}"; }
 fail() { echo -e "\n${RED}ERROR: $*${NC}\n"; exit 1; }
 info() { echo -e "       $*"; }
 
-trap 'rm -rf "$WORK_DIR"' EXIT
+trap 'rm -rf "$WORK_DIR" "$NETRC_TMP"' EXIT
 
 # ── FTP helpers ───────────────────────────────────────────────────────────────
 ftp_list() {
-    curl -s --connect-timeout 15 --retry 3 "${FTP_BASE}$1" 2>&1 || true
+    curl -s --netrc-file "$NETRC_TMP" --connect-timeout 15 "${FTP_BASE}$1" 2>&1 || true
 }
 
 ftp_download_file() {
     local remote="$1" local_path="$2"
     mkdir -p "$(dirname "$local_path")"
-    curl -s --connect-timeout 30 --retry 3 \
+    curl -s --netrc-file "$NETRC_TMP" --connect-timeout 30 \
         -o "$local_path" "${FTP_BASE}${remote}" || {
         warn "Failed to download: ${remote}"
         return 1
@@ -72,7 +76,7 @@ ftp_download_dir() {
 ftp_upload_file() {
     local local_file="$1" remote_path="$2"
     info "  -> ${remote_path}"
-    curl -s --connect-timeout 30 --retry 3 \
+    curl -s --netrc-file "$NETRC_TMP" --connect-timeout 30 \
         --ftp-create-dirs \
         -T "$local_file" \
         "${FTP_BASE}${remote_path}" \
