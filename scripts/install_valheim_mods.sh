@@ -37,6 +37,7 @@
 #                               Works on Linux/Steam Deck/Windows; requires Jotunn
 #    Venture Floating Items 0.3.3  Dropped items float on water surface
 #    AutomaticFuel 1.4.8        Auto-fuels furnaces, kilns, smelters from nearby chests
+#    ParticleConfig 1.0.0       Client-side: disable weather/effect particles via config (Deck perf)
 #
 #  Combat mods:
 #    EpicLoot 0.12.11           Diablo-style magic loot, enchantments, bounties
@@ -104,6 +105,7 @@ CHESTCONTENTS_VERSION="1.1.0"
 FLOATINGITEMS_VERSION="0.3.3"
 PLANTEASILY_VERSION="2.1.1"
 AUTOFUEL_VERSION="1.4.8"
+PARTICLECONFIG_VERSION="1.0.0"
 
 # Combat mods
 EPICLOOT_VERSION="0.12.11"
@@ -160,6 +162,7 @@ CHESTCONTENTS_URL="${BASE}/Sticky/ChestContents/${CHESTCONTENTS_VERSION}/"
 FLOATINGITEMS_URL="${BASE}/VentureValheim/Venture_Floating_Items/${FLOATINGITEMS_VERSION}/"
 PLANTEASILY_URL="${BASE}/Advize/PlantEasily/${PLANTEASILY_VERSION}/"
 AUTOFUEL_URL="${BASE}/TastyChickenLegs/AutomaticFuel/${AUTOFUEL_VERSION}/"
+PARTICLECONFIG_URL="${BASE}/PatricNox/ParticleConfig/${PARTICLECONFIG_VERSION}/"
 
 EPICLOOT_URL="${BASE}/RandyKnapp/EpicLoot/${EPICLOOT_VERSION}/"
 
@@ -584,6 +587,7 @@ print_summary() {
     echo -e "  ${GREEN}✔${NC}  ChestContents ${CHESTCONTENTS_VERSION}  ${DIM}(F5 console -> type: cs <name>  -- no slash -- to find any item in chests)${NC}"
     echo -e "  ${GREEN}✔${NC}  Venture Floating Items ${FLOATINGITEMS_VERSION}  ${DIM}(dropped items float on water)${NC}"
     echo -e "  ${GREEN}✔${NC}  AutomaticFuel ${AUTOFUEL_VERSION}  ${DIM}(auto-fuels furnaces, kilns, smelters)${NC}"
+    echo -e "  ${GREEN}✔${NC}  ParticleConfig ${PARTICLECONFIG_VERSION}  ${DIM}(client-side: set particles to false in BepInEx/config to disable)${NC}"
     echo ""
     echo -e "  ${CYAN}Combat mods:${NC}"
     echo -e "  ${GREEN}✔${NC}  EpicLoot ${EPICLOOT_VERSION}  ${DIM}(magic loot, enchantments, bounties)${NC}"
@@ -674,6 +678,8 @@ main() {
     install_mod "$CHESTCONTENTS_URL" "ChestContents.dll"               "ChestContents ${CHESTCONTENTS_VERSION}"
     install_mod "$FLOATINGITEMS_URL" "VentureValheim.FloatingItems.dll" "Venture Floating Items ${FLOATINGITEMS_VERSION}"
     install_mod "$AUTOFUEL_URL"     "AutomaticFuel.dll"                "AutomaticFuel ${AUTOFUEL_VERSION}"
+    # ParticleConfig: client-side only; toggle weather/effect particles in its config (perf on Steam Deck)
+    install_mod "$PARTICLECONFIG_URL" "ParticleConfig.dll"             "ParticleConfig ${PARTICLECONFIG_VERSION}"
 
     # Combat mods
     step "Installing combat mods"

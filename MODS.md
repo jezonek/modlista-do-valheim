@@ -44,6 +44,19 @@
 
 ---
 
+## Client-Side Only (not installed on server)
+
+These are in the client installers (`install_valheim_mods.sh` / `.ps1`) but **not** in `server_install_mods.sh` — they are purely local (UI / visual / input) and the headless server gains nothing from them.
+
+| Mod | Version | Thunderstore | Notes |
+|-----|---------|-------------|-------|
+| ParticleConfig | 1.0.0 | PatricNox/ParticleConfig | Disable weather/effect particles via `BepInEx/config` (`false` = off). Deck performance. |
+| ChestContents | 1.1.0 | Sticky/ChestContents | Search any item in chests: F5 console -> `cs <name>` (no slash). Cross-platform. |
+| PlantEasily | 2.1.1 | Advize/PlantEasily | Grid planting + bulk harvest. |
+| ChestSearch | 1.0.6 | Channel2NewsTeam/ChestSearch | **Windows only** — uses user32.dll; crashes on Linux/Steam Deck. |
+
+---
+
 ## Gameplay Expansion
 
 | Mod | Version | Thunderstore |

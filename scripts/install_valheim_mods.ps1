@@ -39,6 +39,7 @@
       ChestSearch 1.0.6          Search chests by item name (F3 hotkey)
       Venture Floating Items 0.3.3  Dropped items float on water surface
       AutomaticFuel 1.4.8        Auto-fuels furnaces, kilns, smelters from nearby chests
+      ParticleConfig 1.0.0       Client-side: disable weather/effect particles via config (Deck perf)
 
     Combat mods:
       EpicLoot 0.12.11           Diablo-style magic loot, enchantments, bounties
@@ -109,6 +110,7 @@ $CHESTCONTENTS_VERSION = "1.1.0"
 $FLOATINGITEMS_VERSION = "0.3.3"
 $PLANTEASILY_VERSION  = "2.1.1"
 $AUTOFUEL_VERSION     = "1.4.8"
+$PARTICLECONFIG_VERSION = "1.0.0"
 
 # Combat mods
 $EPICLOOT_VERSION     = "0.12.11"
@@ -165,6 +167,7 @@ $CHESTCONTENTS_URL  = "$BASE/Sticky/ChestContents/$CHESTCONTENTS_VERSION/"
 $FLOATINGITEMS_URL  = "$BASE/VentureValheim/Venture_Floating_Items/$FLOATINGITEMS_VERSION/"
 $PLANTEASILY_URL   = "$BASE/Advize/PlantEasily/$PLANTEASILY_VERSION/"
 $AUTOFUEL_URL      = "$BASE/TastyChickenLegs/AutomaticFuel/$AUTOFUEL_VERSION/"
+$PARTICLECONFIG_URL = "$BASE/PatricNox/ParticleConfig/$PARTICLECONFIG_VERSION/"
 
 $EPICLOOT_URL      = "$BASE/RandyKnapp/EpicLoot/$EPICLOOT_VERSION/"
 
@@ -502,6 +505,7 @@ function Write-Summary {
     Write-Host "     OK  ChestContents $CHESTCONTENTS_VERSION  (F5 console -> type 'cs <name>' with NO slash -- find any item incl. not in inventory)" -ForegroundColor Green
     Write-Host "     OK  Venture Floating Items $FLOATINGITEMS_VERSION  (dropped items float on water)" -ForegroundColor Green
     Write-Host "     OK  AutomaticFuel $AUTOFUEL_VERSION  (auto-fuels furnaces, kilns, smelters)" -ForegroundColor Green
+    Write-Host "     OK  ParticleConfig $PARTICLECONFIG_VERSION  (client-side: set particles to false in BepInEx/config to disable)" -ForegroundColor Green
     Write-Host ""
     Write-Host "  Combat mods:" -ForegroundColor Cyan
     Write-Host "     OK  EpicLoot $EPICLOOT_VERSION  (magic loot, enchantments, bounties)" -ForegroundColor Green
@@ -601,6 +605,8 @@ try {
     Install-Mod -Url $CHESTCONTENTS_URL   -DllName "ChestContents.dll"           -Label "ChestContents $CHESTCONTENTS_VERSION"       -ValheimDir $valheimDir -TmpDir $tmpDir
     Install-Mod -Url $FLOATINGITEMS_URL   -DllName "VentureValheim.FloatingItems.dll" -Label "Venture Floating Items $FLOATINGITEMS_VERSION" -ValheimDir $valheimDir -TmpDir $tmpDir
     Install-Mod -Url $AUTOFUEL_URL        -DllName "AutomaticFuel.dll"           -Label "AutomaticFuel $AUTOFUEL_VERSION"            -ValheimDir $valheimDir -TmpDir $tmpDir
+    # ParticleConfig: client-side only; toggle weather/effect particles in BepInEx/config (perf on weak GPUs)
+    Install-Mod -Url $PARTICLECONFIG_URL  -DllName "ParticleConfig.dll"          -Label "ParticleConfig $PARTICLECONFIG_VERSION"     -ValheimDir $valheimDir -TmpDir $tmpDir
 
     # Combat mods
     Write-Step "Installing combat mods"
